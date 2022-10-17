@@ -5,26 +5,26 @@ services:
         container_name: icea-gestao-postgres
         image: postgres:12.5
         environment:
-            - POSTGRES_DB=wallet
-            - POSTGRES_USER=dev
-            - POSTGRES_PASSWORD=dev
+            - POSTGRES_DB=iceaDB
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
         volumes:
             - ./database:/var/lib/postgresql/data
         networks:
             - postgresnetwork
             
     api:
-        container_name: mywallet-api
+        container_name: icea-gestao-api
         depends_on: [postgres]
         build:
-            context: https://raw.githubusercontent.com/DMarlon/mywallet-api/master/Dockerfile
+            context: https://github.com/rodrigoengelberg/icea-gestao-backend/master/Dockerfile
         working_dir: /api
         environment:
             - DB_SERVER=postgres
             - DB_PORT=5432
-            - DB_NAME=wallet
-            - DB_USER=dev
-            - DB_PASSWORD=dev
+            - DB_NAME=iceaDB
+            - DB_USER=postgres
+            - DB_PASSWORD=postgres
             - FRONT_SERVER=http://localhost:8801
         ports:
             - 8800:8080
@@ -34,9 +34,9 @@ services:
     front:
         container_name: mywallet-front
         build:
-            context: https://raw.githubusercontent.com/DMarlon/mywallet-front/master/Dockerfile
+            context: https://github.com/rodrigoengelberg/icea-gestao-front/master/Dockerfile
             args:
-                react_app_front_name: My Wallet
+                react_app_front_name: ICEA Gestão
                 react_app_api_url: http://localhost:8800
         working_dir: /front
         
@@ -44,13 +44,13 @@ services:
             - 8801:8801
 
     pgadmin:
-        container_name: mywallet-pgadmin
+        container_name: icea-gestao-pgadmin
         image: dpage/pgadmin4
         ports:
            - 8802:80
         environment:
             - PGADMIN_DEFAULT_EMAIL=test@mywallet.com.br
-            - PGADMIN_DEFAULT_PASSWORD=dev
+            - PGADMIN_DEFAULT_PASSWORD=postgres
         networks:
             - postgresnetwork
 
