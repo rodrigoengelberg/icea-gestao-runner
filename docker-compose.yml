@@ -17,7 +17,7 @@ services:
         container_name: icea-gestao-api
         depends_on: [postgres]
         build:
-            context: https://github.com/rodrigoengelberg/icea-gestao-backend/master/Dockerfile
+            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-backend/feature-docker/Dockerfile
         working_dir: /api
         environment:
             - DB_SERVER=postgres
@@ -32,9 +32,9 @@ services:
             - postgresnetwork
             
     front:
-        container_name: mywallet-front
+        container_name: icea-gestao-front
         build:
-            context: https://github.com/rodrigoengelberg/icea-gestao-front/master/Dockerfile
+            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-frontend/feature-docker/Dockerfile
             args:
                 react_app_front_name: ICEA Gestão
                 react_app_api_url: http://localhost:8800
@@ -49,7 +49,7 @@ services:
         ports:
            - 8802:80
         environment:
-            - PGADMIN_DEFAULT_EMAIL=test@mywallet.com.br
+            - PGADMIN_DEFAULT_EMAIL=admin@icea-gestao.com.br
             - PGADMIN_DEFAULT_PASSWORD=postgres
         networks:
             - postgresnetwork
