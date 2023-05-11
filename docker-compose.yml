@@ -1,53 +1,55 @@
 version: '3.5'
 
-services: 
+services:
+
     postgres:
         container_name: icea-gestao-postgres
         image: postgres:12.5
         environment:
-            - POSTGRES_DB=iceaDB
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=admicea
+            - POSTGRES_PASSWORD=1234
+            - POSTGRES_DB=dbicea
         volumes:
-            - ./database:/var/lib/postgresql/data
+            - "./database:/var/lib/postgresql/data"
         networks:
             - postgresnetwork
-            
+        ports:
+            - 5432:5432
+
     api:
-        container_name: icea-gestao-api
-        depends_on: [postgres]
+        container_name: icea-gestao-backend
+        depends_on: [ postgres ]
         build:
-            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-backend/feature-docker/Dockerfile
+            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-backend/main/Dockerfile
         working_dir: /api
         environment:
             - DB_SERVER=postgres
             - DB_PORT=5432
-            - DB_NAME=iceaDB
-            - DB_USER=postgres
-            - DB_PASSWORD=postgres
+            - DB_NAME=dbicea
+            - DB_USER=admicea
+            - DB_PASSWORD=1234
             - FRONT_SERVER=http://localhost:8801
         ports:
-            - 8800:8080
+            - 8800:3333
         networks:
             - postgresnetwork
-            
+
     front:
         container_name: icea-gestao-front
         build:
-            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-frontend/feature-docker/Dockerfile
+            context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-frontend/main/Dockerfile
             args:
                 react_app_front_name: ICEA Gestão
                 react_app_api_url: http://localhost:8800
         working_dir: /front
-        
         ports:
-            - 8801:8801
+            - 8801:3005
 
     pgadmin:
         container_name: icea-gestao-pgadmin
         image: dpage/pgadmin4
         ports:
-           - 8802:80
+            - 8802:80
         environment:
             - PGADMIN_DEFAULT_EMAIL=admin@icea-gestao.com.br
             - PGADMIN_DEFAULT_PASSWORD=postgres
