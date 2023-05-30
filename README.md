@@ -22,7 +22,7 @@ Just download the [docker-compose.yml](docker-compose.yml) and run the commands 
 1. Build and running project
 
     ```
-	docker-compose up.
+	docker-compose up
     ``` 
 
 2. Using project
@@ -42,8 +42,8 @@ Just download the [docker-compose.yml](docker-compose.yml) and run the commands 
 
 ### Support or contact
 
-[![GITHUB](https://img.shields.io/badge/Github-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dmarlon/)
-[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/marlon-dauernheimer-55278073/)
+[![GITHUB](https://img.shields.io/badge/Github-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rodrigoengelberg/)
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rodrigoengelberg/)
 
 ### Reference Documentation
 To additional references, consider the following sections:
