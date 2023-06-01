@@ -8,27 +8,30 @@ services:
         environment:
             - POSTGRES_USER=admicea
             - POSTGRES_PASSWORD=1234
-            - POSTGRES_DB=dbicea
+            - POSTGRES_DB=postgres
         volumes:
             - "./database:/var/lib/postgresql/data"
-        networks:
-            - postgresnetwork
         ports:
             - 5432:5432
+        networks:
+            - postgresnetwork
+        
 
     api:
         container_name: icea-gestao-backend
-        depends_on: [ postgres ]
+        depends_on: [postgres]
         build:
             context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-backend/main/Dockerfile
         working_dir: /api
         environment:
+            - DATABASE_URL=postgres://admicea:1234@localhost:5432/postgres
             - DB_SERVER=postgres
             - DB_PORT=5432
-            - DB_NAME=dbicea
+            - DB_NAME=postgres
             - DB_USER=admicea
             - DB_PASSWORD=1234
             - FRONT_SERVER=http://localhost:8801
+            - SSL_REJECT=false
         ports:
             - 8800:3333
         networks:
@@ -40,10 +43,12 @@ services:
             context: https://raw.githubusercontent.com/rodrigoengelberg/icea-gestao-frontend/main/Dockerfile
             args:
                 react_app_front_name: ICEA Gestão
-                react_app_api_url: http://localhost:8800
+                react_app_api_url: http://localhost:8800/api
         working_dir: /front
         ports:
             - 8801:3005
+        networks:
+            - postgresnetwork
 
     pgadmin:
         container_name: icea-gestao-pgadmin
